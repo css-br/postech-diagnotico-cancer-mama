@@ -29,8 +29,8 @@ TechChallengeA/
 │       │   └── test_sample.csv      # Amostra de teste (usada pelo notebook CNN)
 │       └── jpeg/
 │           └── <UID>/               # Imagens de mamografia (ROI recortado)
-├── diagnostico_cancer_mama.ipynb    # Notebook 1: dados estruturados
-├── diagnostico_imagem_cnn.ipynb     # Notebook 2: CNN por imagem
+├── diagnostico_cancer_mama.ipynb    # Notebook: diagnostico_cancer_mama, dados estruturados
+├── diagnostico_imagem_cnn.ipynb     # Notebook: [EXTRA] diagnostico_imagem_cnn: CNN por imagem
 ├── copy_sample.py                   # Script de amostragem do CBIS-DDSM
 ├── requirements.txt                 # Dependências Python
 ├── Dockerfile                       # Container único para ambos os notebooks
@@ -39,7 +39,7 @@ TechChallengeA/
 
 ---
 
-## Notebook 1 — Dados Estruturados
+## Notebook: diagnostico_cancer_mama — Dados Estruturados
 
 ### Dataset
 **Breast Cancer Wisconsin (Diagnostic)** — 569 amostras, 30 features numéricas extraídas de biópsias.
@@ -59,7 +59,7 @@ Fonte: [Kaggle — UCI ML Breast Cancer Dataset](https://www.kaggle.com/datasets
 
 ---
 
-## Notebook 2 — Diagnóstico por Imagem (CNN)
+## Notebook: [EXTRA] diagnostico_imagem_cnn — Diagnóstico por Imagem (CNN)
 
 ### Dataset
 **CBIS-DDSM** (Curated Breast Imaging Subset of DDSM) — recortes de mamografia (ROI de massa) classificados como BENIGNO/MALIGNO.
@@ -112,7 +112,7 @@ docker build -t cancer-mana-ml .
 
 ### Passo 3 — Iniciar o container
 
-**Apenas Notebook 1 (dados estruturados):**
+**Apenas Notebook: diagnostico_cancer_mama (dados estruturados):**
 ```bash
 docker run -p 8888:8888 cancer-mana-ml
 ```
@@ -144,7 +144,7 @@ Execute os notebooks com **Kernel > Restart & Run All**.
 
 ## Métricas avaliadas
 
-| Métrica | Notebook 1 | Notebook 2 |
+| Métrica | Notebook: diagnostico_cancer_mama | Notebook: [EXTRA] diagnostico_imagem_cnn |
 |---------|-----------|-----------|
 | Accuracy | ✓ | ✓ |
 | Recall | ✓ (foco principal) | ✓ |
@@ -182,14 +182,14 @@ jupyter notebook
 
 ### Análise Exploratória
 
-**Notebook 1 — Breast Cancer Wisconsin:**
+**Notebook: diagnostico_cancer_mama — Breast Cancer Wisconsin:**
 - Dataset com 569 amostras, 30 features numéricas (média, erro padrão e pior valor de 10 características de biópsias)
 - Distribuição de classes: ~63% Benigno (B), ~37% Maligno (M) — leve desbalanceamento gerenciável
 - Alta correlação entre features de média e pior valor (redundância esperada → justifica uso de PCA)
 - Ausência de valores nulos; coluna `id` descartada por não ser preditiva
 - Separação clara entre classes em algumas features (ex: `radius_mean`, `concavity_mean`) evidenciada em pairplots
 
-**Notebook 2 — CBIS-DDSM:**
+**Notebook: [EXTRA] diagnostico_imagem_cnn — CBIS-DDSM:**
 - Dataset de mamografias com ROI de massas (recorte da região de interesse)
 - Amostra utilizada: 200 imagens (50 treino benigno, 50 treino maligno, 50 teste benigno, 50 teste maligno)
 - Imagens em escala de cinza convertidas para RGB (requisito do MobileNetV2)
@@ -215,7 +215,7 @@ jupyter notebook
 
 ### Modelos e Justificativas
 
-**Notebook 1 — Por que esses modelos?**
+**Notebook: diagnostico_cancer_mama — Por que esses modelos?**
 
 | Modelo | Justificativa |
 |--------|---------------|
@@ -224,7 +224,7 @@ jupyter notebook
 
 Ambos foram escolhidos por serem modelos consolidados em dados tabulares médicos, com boa interpretabilidade — fator relevante em contextos clínicos.
 
-**Notebook 2 — Por que CNN com Transfer Learning?**
+**Notebook: [EXTRA] diagnostico_imagem_cnn — Por que CNN com Transfer Learning?**
 
 | Escolha | Justificativa |
 |---------|---------------|
@@ -238,14 +238,14 @@ Transfer learning é a abordagem padrão quando o dataset é pequeno (apenas 200
 
 ### Resultados e Interpretação
 
-**Notebook 1 — Dados Estruturados:**
+**Notebook: diagnostico_cancer_mama — Dados Estruturados:**
 
 Os modelos foram avaliados com foco em **Recall** (sensibilidade), pois em diagnóstico oncológico o custo de um falso negativo (maligno classificado como benigno) é muito maior do que um falso positivo.
 
 - **Logistic Regression com PCA**: Recall elevado após otimização do threshold de decisão; PCA reduziu overfitting e tempo de treino sem perda significativa de performance
 - **Random Forest**: Ligeiramente superior em F1-score; importância de features destacou `concavity_mean` e `area_worst` como principais preditores — alinhado com literatura clínica
 
-**Notebook 2 — Diagnóstico por Imagem:**
+**Notebook: [EXTRA] diagnostico_imagem_cnn — Diagnóstico por Imagem:**
 
 - A fase de fine-tuning melhorou métricas em relação ao treino apenas do cabeçalho
 - Grad-CAM confirmou que o modelo aprende a focar nas regiões de massa e não em artefatos da imagem
