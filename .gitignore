@@ -1,0 +1,42 @@
+# Datasets (baixar via instruções no README)
+data/
+
+# Notebooks de rascunho
+notebooks/
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Build / dist
+dist/
+build/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentos gerados
+*.docx
+*.pdf
+
+# Kaggle credentials
+kaggle.json
