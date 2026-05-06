@@ -1,4 +1,4 @@
-# TechChallenge A — Diagnóstico de Câncer de Mama com ML
+# TechChallenge — Diagnóstico de Câncer de Mama com ML
 
 Projeto de classificação de câncer de mama usando Machine Learning e Redes Neurais Convolucionais, desenvolvido como parte do POSTECH FIAP Fase 1.
 
@@ -242,8 +242,29 @@ Transfer learning é a abordagem padrão quando o dataset é pequeno (apenas 200
 
 Os modelos foram avaliados com foco em **Recall** (sensibilidade), pois em diagnóstico oncológico o custo de um falso negativo (maligno classificado como benigno) é muito maior do que um falso positivo.
 
+## Análise de correlação
+![alt text](imagens/image4.png)
+
 - **Logistic Regression com PCA**: Recall elevado após otimização do threshold de decisão; PCA reduziu overfitting e tempo de treino sem perda significativa de performance
 - **Random Forest**: Ligeiramente superior em F1-score; importância de features destacou `concavity_mean` e `area_worst` como principais preditores — alinhado com literatura clínica
+## Matriz de confusão Logistic Regression
+![alt text](imagens/image.png)
+
+## Matriz de confusão Random Forest
+![alt text](imagens/image2.png)
+
+## Feature importance - RandomForest
+![alt text](imagens/image3.png)
+
+## Resultados
+````
+Modelo                    Accuracy     Recall (maligno)     F1 (maligno)    Falsos Negativos
+-------------------------------------------------------------------------------------
+Logistic Regression       0.9649       0.9286               0.9512          3
+Random Forest             0.9649       0.9048               0.9500          4
+````
+
+## Computer Vision 
 
 **Notebook: [EXTRA] diagnostico_imagem_cnn — Diagnóstico por Imagem:**
 
